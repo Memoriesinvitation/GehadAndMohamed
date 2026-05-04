@@ -111,16 +111,30 @@ function applyMedia() {
 function renderCalendar(dateInfo) {
   const container = document.getElementById("calendar-strip");
   container.innerHTML = "";
-  const startDay = Math.max(1, dateInfo.dayNumber - 2);
 
-  for (let i = 0; i < 5; i += 1) {
-    const value = startDay + i;
+  // Create base date from your ISO string
+  const baseDate = dateInfo.fullDate;
+
+  // Start 2 days before
+  const startDate = new Date(baseDate);
+  startDate.setDate(baseDate.getDate() - 2);
+
+  for (let i = 0; i < 5; i++) {
+    const currentDate = new Date(startDate);
+    currentDate.setDate(startDate.getDate() + i);
+
     const day = document.createElement("div");
     day.className = "calendar-strip__day";
-    if (value === dateInfo.dayNumber) {
+
+    // Highlight the exact event day
+    if (
+      currentDate.getDate() === baseDate.getDate() &&
+      currentDate.getMonth() === baseDate.getMonth()
+    ) {
       day.classList.add("is-highlighted");
     }
-    day.textContent = value;
+
+    day.textContent = currentDate.getDate();
     container.appendChild(day);
   }
 }
@@ -140,24 +154,24 @@ function iconMarkup(icon) {
   return icons[icon] || icons.camera;
 }
 
-function renderProgram() {
-  const container = document.getElementById("program-list");
-  container.innerHTML = "";
+// function renderProgram() {
+//   const container = document.getElementById("program-list");
+//   container.innerHTML = "";
 
-  config.schedule.forEach((item) => {
-    const card = document.createElement("article");
-    card.className = "program-card";
-    card.innerHTML = `
-      <div class="program-card__icon">${iconMarkup(item.icon)}</div>
-      <div>
-        <p class="program-card__time">${item.time}</p>
-        <h3 class="program-card__title">${item.title}</h3>
-        <p class="program-card__description">${item.description}</p>
-      </div>
-    `;
-    container.appendChild(card);
-  });
-}
+//   config.schedule.forEach((item) => {
+//     const card = document.createElement("article");
+//     card.className = "program-card";
+//     card.innerHTML = `
+//       <div class="program-card__icon">${iconMarkup(item.icon)}</div>
+//       <div>
+//         <p class="program-card__time">${item.time}</p>
+//         <h3 class="program-card__title">${item.title}</h3>
+//         <p class="program-card__description">${item.description}</p>
+//       </div>
+//     `;
+//     container.appendChild(card);
+//   });
+// }
 
 function setupModal() {
   const openButtons = document.querySelectorAll("[data-open-rsvp]");
@@ -283,15 +297,15 @@ function init() {
       .getDate()
       .toString()
       .padStart(2, "0")} / ${(dateInfo.fullDate.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")} / ${dateInfo.fullDate.getFullYear()} - ${config.event.footerLocation}`
+        .toString()
+        .padStart(2, "0")} / ${dateInfo.fullDate.getFullYear()} - ${config.event.footerLocation}`
   };
 
   applyTheme(config.theme);
   bindText(derivedValues);
   applyMedia();
   renderCalendar(dateInfo);
-  renderProgram();
+  // renderProgram();
   setupModal();
   setupAudio();
   rsvpForm.addEventListener("submit", handleRsvpSubmit);

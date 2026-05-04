@@ -19,9 +19,9 @@ window.siteConfig = {
     },
 
     fonts: {
-      heading: "'Fraunces', serif",
-      body: "'Cormorant Garamond', serif",
-      accent: "'Petit Formal Script', cursive"
+      heading: "'Cormorant Garamond', serif",
+      body: "'Manrope', sans-serif",
+      accent: "'Allura', cursive"
     }
   },
 
@@ -30,10 +30,10 @@ window.siteConfig = {
     heroTitle: "Let's Get Engaged",
     heroTagline:
       "A soft little corner of the internet made for the people we love most.",
-    coupleNames: "Gehad & Mohamed",
+    coupleNames: "Mohamed & Gehad",
     dateTime: "2026-05-30T19:00:00+02:00",
-    venueName: "Panorama 6 October",
-    venueAddress: "Al Estad, Qesm Than Madinet Nasr, Cairo Governorate",
+    venueName: "بانوراما ٦ اكتوبر",
+    venueAddress: "صلاح سالم – أمام مباني العبور – داخل نادي بانوراما ٦ أكتوب",
     venueDescription:
       "An open-air celebration tucked among olive trees, warm candlelight, and a long table waiting for every smile.",
     mapsUrl: "https://maps.app.goo.gl/dRmg2ooruYANjSwr5",
@@ -83,7 +83,7 @@ window.siteConfig = {
     venuePhoto: "assets/images/Venue.jpg",
     memoryGallery: [
       {
-        src: "assets/images/memory-one.svg",
+        src: "assets/images/memory-one.jpg",
         alt: "Memory placeholder one",
         caption: "The beginning"
       },
