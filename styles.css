@@ -866,3 +866,30 @@ textarea {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+.is-hidden-by-config {
+  display: none !important;
+}
+
+.portrait-grid--single {
+  width: min(100%, 17rem);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 48rem) {
+  .portrait-grid--single {
+    grid-template-columns: minmax(0, 1fr);
+    width: min(100%, 18rem);
+  }
+
+  .gallery-grid--single {
+    grid-template-columns: minmax(0, min(100%, 22rem));
+    justify-content: center;
+  }
+
+  .program-list--single {
+    grid-template-columns: minmax(0, min(100%, 28rem));
+    justify-content: center;
+  }
+}

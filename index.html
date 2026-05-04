@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -11,110 +11,212 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Petit+Formal+Script&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="loading-screen" id="loading-screen" aria-live="polite">
+    <div
+      class="loading-screen"
+      id="loading-screen"
+      aria-live="polite"
+      data-visible="visibility.loadingScreen.section"
+    >
       <div class="loading-screen__inner">
         <img
           class="loading-screen__rings"
           src="assets/images/decor-rings.svg"
           alt=""
           aria-hidden="true"
+          data-visible="visibility.loadingScreen.rings"
         />
-        <p class="loading-screen__eyebrow" data-bind="copy.loadingMessage"></p>
-        <h1 class="loading-screen__names" data-bind="derived.shortNames"></h1>
+        <p
+          class="loading-screen__eyebrow"
+          data-bind="copy.loadingMessage"
+          data-visible="visibility.loadingScreen.eyebrow"
+        ></p>
+        <h1
+          class="loading-screen__names"
+          data-bind="derived.shortNames"
+          data-visible="visibility.loadingScreen.names"
+        ></h1>
       </div>
     </div>
 
     <main class="site-shell is-hidden" id="site-shell">
-      <section class="hero section">
-        <div class="ornament ornament--top-left" aria-hidden="true"></div>
-        <div class="ornament ornament--top-right" aria-hidden="true"></div>
-        <img class="hero__rings" src="assets/images/decor-rings.svg" alt="" aria-hidden="true" />
-        <p class="eyebrow" data-bind="event.invitationLabel"></p>
-        <h1 class="hero__title" data-bind="event.heroTitle"></h1>
-        <div class="divider" aria-hidden="true"></div>
+      <section class="hero section" data-visible="visibility.hero.section">
+        <div
+          class="ornament ornament--top-left"
+          aria-hidden="true"
+          data-visible="visibility.hero.ornaments"
+        ></div>
+        <div
+          class="ornament ornament--top-right"
+          aria-hidden="true"
+          data-visible="visibility.hero.ornaments"
+        ></div>
+        <img
+          class="hero__rings"
+          src="assets/images/decor-rings.svg"
+          alt=""
+          aria-hidden="true"
+          data-visible="visibility.hero.rings"
+        />
+        <p
+          class="eyebrow"
+          data-bind="event.invitationLabel"
+          data-visible="visibility.hero.eyebrow"
+        ></p>
+        <h1
+          class="hero__title"
+          data-bind="event.heroTitle"
+          data-visible="visibility.hero.title"
+        ></h1>
+        <div class="divider" aria-hidden="true" data-visible="visibility.hero.divider"></div>
 
-        <div class="portrait-grid">
-          <article class="portrait-card portrait-card--left">
-            <p class="portrait-card__label" data-bind="derived.partnerOneFirstName"></p>
+        <div
+          class="portrait-grid"
+          id="portrait-grid"
+          data-visible="visibility.hero.portraitGrid"
+        >
+          <article
+            class="portrait-card portrait-card--left"
+            data-visible="visibility.hero.portraitOne.card"
+            data-auto-hide-empty
+          >
+            <p
+              class="portrait-card__label"
+              data-bind="derived.partnerOneFirstName"
+              data-visible="visibility.hero.portraitOne.label"
+            ></p>
             <div class="portrait-card__frame">
               <img
                 id="partner-one-photo"
                 src="assets/images/portrait-one.svg"
                 alt="Portrait placeholder for partner one"
+                data-visible="visibility.hero.portraitOne.image"
               />
             </div>
           </article>
 
-          <article class="portrait-card portrait-card--right">
-            <p class="portrait-card__label" data-bind="derived.partnerTwoFirstName"></p>
+          <article
+            class="portrait-card portrait-card--right"
+            data-visible="visibility.hero.portraitTwo.card"
+            data-auto-hide-empty
+          >
+            <p
+              class="portrait-card__label"
+              data-bind="derived.partnerTwoFirstName"
+              data-visible="visibility.hero.portraitTwo.label"
+            ></p>
             <div class="portrait-card__frame">
               <img
                 id="partner-two-photo"
                 src="assets/images/portrait-two.svg"
                 alt="Portrait placeholder for partner two"
+                data-visible="visibility.hero.portraitTwo.image"
               />
             </div>
           </article>
         </div>
 
-        <p class="hero__names" data-bind="event.coupleNames"></p>
-        <p class="hero__tagline" data-bind="event.heroTagline"></p>
+        <p class="hero__names" data-bind="event.coupleNames" data-visible="visibility.hero.names"></p>
+        <p
+          class="hero__tagline"
+          data-bind="event.heroTagline"
+          data-visible="visibility.hero.tagline"
+          data-hide-if-empty
+        ></p>
 
-        <div class="hero__actions">
-          <a class="button button--primary" href="#details" data-bind="copy.primaryCta"></a>
-          <button class="button button--secondary" type="button" data-open-rsvp>
+        <div
+          class="hero__actions"
+          data-visible="visibility.hero.actions"
+          data-auto-hide-empty
+        >
+          <a
+            class="button button--primary"
+            href="#details"
+            data-bind="copy.primaryCta"
+            data-visible="visibility.hero.primaryButton"
+          ></a>
+          <button
+            class="button button--secondary"
+            type="button"
+            data-open-rsvp
+            data-visible="visibility.hero.secondaryButton"
+          >
             <span data-bind="copy.secondaryCta"></span>
           </button>
         </div>
       </section>
 
-      <section class="welcome section" id="details">
-        <div class="section-heading">
-          <h2 class="section-title section-title--script" data-bind="copy.introTitle"></h2>
-          <img src="assets/images/decor-rings.svg" alt="" aria-hidden="true" />
+      <section class="welcome section" id="details" data-visible="visibility.welcome.section">
+        <div class="section-heading" data-auto-hide-empty>
+          <h2
+            class="section-title section-title--script"
+            data-bind="copy.introTitle"
+            data-visible="visibility.welcome.title"
+          ></h2>
+          <img
+            src="assets/images/decor-rings.svg"
+            alt=""
+            aria-hidden="true"
+            data-visible="visibility.welcome.rings"
+          />
         </div>
-        <p class="section-copy" data-bind="copy.introBody"></p>
+        <p class="section-copy" data-bind="copy.introBody" data-visible="visibility.welcome.body"></p>
       </section>
 
-      <section class="date section section--accent">
-        <div class="spark spark--left" aria-hidden="true"></div>
-        <div class="spark spark--right" aria-hidden="true"></div>
-        <p class="eyebrow" data-bind="copy.dateEyebrow"></p>
-        <h2 class="section-title" data-bind="derived.eventMonth"></h2>
-        <p class="date__subtitle" data-bind="derived.eventYearLine"></p>
-        <div class="calendar-strip" id="calendar-strip" aria-label="Highlighted event date"></div>
-        <p class="date__line" data-bind="derived.formattedDate"></p>
+      <section class="date section section--accent" data-visible="visibility.date.section">
+        <div class="spark spark--left" aria-hidden="true" data-visible="visibility.date.sparks"></div>
+        <div class="spark spark--right" aria-hidden="true" data-visible="visibility.date.sparks"></div>
+        <p class="eyebrow" data-bind="copy.dateEyebrow" data-visible="visibility.date.eyebrow"></p>
+        <h2 class="section-title" data-bind="derived.eventMonth" data-visible="visibility.date.title"></h2>
+        <p class="date__subtitle" data-bind="derived.eventYearLine" data-visible="visibility.date.subtitle"></p>
+        <div
+          class="calendar-strip"
+          id="calendar-strip"
+          aria-label="Highlighted event date"
+          data-visible="visibility.date.calendar"
+        ></div>
+        <p class="date__line" data-bind="derived.formattedDate" data-visible="visibility.date.dateLine"></p>
       </section>
 
-      <section class="location section">
-        <div class="section-heading">
-          <p class="eyebrow" data-bind="copy.locationEyebrow"></p>
-          <h2 class="section-title" data-bind="copy.locationTitle"></h2>
+      <section class="location section" data-visible="visibility.location.section">
+        <div class="section-heading" data-auto-hide-empty>
+          <p class="eyebrow" data-bind="copy.locationEyebrow" data-visible="visibility.location.eyebrow"></p>
+          <h2 class="section-title" data-bind="copy.locationTitle" data-visible="visibility.location.title"></h2>
         </div>
-        <p class="location__name" data-bind="event.venueName"></p>
-        <p class="section-copy location__copy" data-bind="event.venueDescription"></p>
+        <p class="location__name" data-bind="event.venueName" data-visible="visibility.location.venueName"></p>
+        <p
+          class="section-copy location__copy"
+          data-bind="event.venueDescription"
+          data-visible="visibility.location.description"
+          data-hide-if-empty
+        ></p>
 
-        <div class="location__bouquet-wrap" aria-hidden="true">
+        <div class="location__bouquet-wrap" aria-hidden="true" data-visible="visibility.location.bouquet">
           <img class="location__bouquet" src="assets/images/decor-bouquet.svg" alt="" />
         </div>
 
-        <article class="venue-card">
+        <article class="venue-card" data-visible="visibility.location.card">
           <img
             id="venue-photo"
             class="venue-card__image"
             src="assets/images/venue-placeholder.svg"
             alt="Venue placeholder"
+            data-visible="visibility.location.cardImage"
           />
-          <div class="venue-card__body">
+          <div class="venue-card__body" data-auto-hide-empty>
             <div>
-              <h3 class="venue-card__title" data-bind="event.venueName"></h3>
-              <p class="venue-card__meta" data-bind="event.venueAddress"></p>
+              <h3 class="venue-card__title" data-bind="event.venueName" data-visible="visibility.location.cardTitle"></h3>
+              <p
+                class="venue-card__meta"
+                data-bind="event.venueAddress"
+                data-visible="visibility.location.cardAddress"
+                data-hide-if-empty
+              ></p>
             </div>
             <a
               class="button button--primary venue-card__button"
@@ -123,54 +225,75 @@
               target="_blank"
               rel="noreferrer"
               data-bind="copy.locationButton"
+              data-visible="visibility.location.cardButton"
             ></a>
           </div>
         </article>
       </section>
 
-      <section class="gallery section">
-        <div class="section-heading">
-          <p class="eyebrow" data-bind="copy.galleryEyebrow"></p>
-          <h2 class="section-title" data-bind="copy.galleryTitle"></h2>
+      <section class="gallery section" data-visible="visibility.gallery.section">
+        <div class="section-heading" data-auto-hide-empty>
+          <p class="eyebrow" data-bind="copy.galleryEyebrow" data-visible="visibility.gallery.eyebrow"></p>
+          <h2 class="section-title" data-bind="copy.galleryTitle" data-visible="visibility.gallery.title"></h2>
         </div>
-        <p class="section-copy" data-bind="copy.galleryBody"></p>
-        <div class="gallery-grid" id="gallery-grid"></div>
+        <p
+          class="section-copy"
+          data-bind="copy.galleryBody"
+          data-visible="visibility.gallery.body"
+          data-hide-if-empty
+        ></p>
+        <div class="gallery-grid" id="gallery-grid" data-visible="visibility.gallery.grid"></div>
       </section>
 
-      <!-- <section class="program section section--blush">
-        <div class="section-heading">
-          <p class="eyebrow" data-bind="copy.programEyebrow"></p>
-          <h2 class="section-title" data-bind="copy.programTitle"></h2>
+      <section class="program section section--blush" data-visible="visibility.program.section">
+        <div class="section-heading" data-auto-hide-empty>
+          <p class="eyebrow" data-bind="copy.programEyebrow" data-visible="visibility.program.eyebrow"></p>
+          <h2 class="section-title" data-bind="copy.programTitle" data-visible="visibility.program.title"></h2>
         </div>
-        <div class="divider" aria-hidden="true"></div>
+        <div class="divider" aria-hidden="true" data-visible="visibility.program.divider"></div>
         <div class="program-list" id="program-list"></div>
-      </section> -->
+      </section>
 
-      <section class="rsvp section">
-        <div class="section-heading">
-          <p class="eyebrow" data-bind="copy.rsvpEyebrow"></p>
-          <h2 class="section-title" data-bind="copy.rsvpTitle"></h2>
+      <section class="rsvp section" data-visible="visibility.rsvp.section">
+        <div class="section-heading" data-auto-hide-empty>
+          <p class="eyebrow" data-bind="copy.rsvpEyebrow" data-visible="visibility.rsvp.eyebrow"></p>
+          <h2 class="section-title" data-bind="copy.rsvpTitle" data-visible="visibility.rsvp.title"></h2>
         </div>
-        <p class="section-copy" data-bind="copy.rsvpBody"></p>
-        <p class="rsvp__deadline" data-bind="derived.rsvpDeadlineLine"></p>
-        <button class="button button--primary button--wide" type="button" data-open-rsvp>
+        <p
+          class="section-copy"
+          data-bind="copy.rsvpBody"
+          data-visible="visibility.rsvp.body"
+          data-hide-if-empty
+        ></p>
+        <p class="rsvp__deadline" data-bind="derived.rsvpDeadlineLine" data-visible="visibility.rsvp.deadline"></p>
+        <button
+          class="button button--primary button--wide"
+          type="button"
+          data-open-rsvp
+          data-visible="visibility.rsvp.button"
+        >
           <span data-bind="copy.rsvpButton"></span>
         </button>
       </section>
 
-      <section class="message section section--accent">
-        <div class="section-heading">
-          <p class="eyebrow" data-bind="copy.messageEyebrow"></p>
-          <h2 class="section-title" data-bind="copy.messageTitle"></h2>
+      <section class="message section section--accent" data-visible="visibility.message.section">
+        <div class="section-heading" data-auto-hide-empty>
+          <p class="eyebrow" data-bind="copy.messageEyebrow" data-visible="visibility.message.eyebrow"></p>
+          <h2 class="section-title" data-bind="copy.messageTitle" data-visible="visibility.message.title"></h2>
         </div>
 
-        <div class="message__illustration" aria-hidden="true">
+        <div class="message__illustration" aria-hidden="true" data-visible="visibility.message.illustration">
           <div class="message__silhouette"></div>
         </div>
 
-        <article class="audio-card">
-          <p class="audio-card__quote" data-bind="copy.messageQuote"></p>
-          <div class="audio-player" id="audio-player">
+        <article class="audio-card" data-visible="visibility.message.card">
+          <p
+            class="audio-card__quote"
+            data-bind="copy.messageQuote"
+            data-visible="visibility.message.quote"
+            data-hide-if-empty
+          ></p>
+          <div class="audio-player" id="audio-player" data-visible="visibility.message.player">
             <button class="audio-player__toggle" id="audio-toggle" type="button" aria-label="Play audio">
               Play
             </button>
@@ -179,35 +302,56 @@
             </div>
             <p class="audio-player__time" id="audio-time">0:00 / 0:00</p>
           </div>
-          <p class="audio-card__caption" data-bind="copy.messageCaption"></p>
+          <p
+            class="audio-card__caption"
+            data-bind="copy.messageCaption"
+            data-visible="visibility.message.caption"
+            data-hide-if-empty
+          ></p>
           <audio id="message-audio" preload="metadata"></audio>
         </article>
       </section>
 
-      <footer class="closing section">
-        <div class="divider" aria-hidden="true"></div>
-        <img class="closing__rings" src="assets/images/decor-rings.svg" alt="" aria-hidden="true" />
-        <p class="closing__lead" data-bind="copy.closingLead"></p>
-        <h2 class="closing__names" data-bind="derived.shortNames"></h2>
-        <p class="closing__meta" data-bind="derived.footerMeta"></p>
+      <footer class="closing section" data-visible="visibility.closing.section">
+        <div class="divider" aria-hidden="true" data-visible="visibility.closing.divider"></div>
+        <img
+          class="closing__rings"
+          src="assets/images/decor-rings.svg"
+          alt=""
+          aria-hidden="true"
+          data-visible="visibility.closing.rings"
+        />
+        <p
+          class="closing__lead"
+          data-bind="copy.closingLead"
+          data-visible="visibility.closing.lead"
+          data-hide-if-empty
+        ></p>
+        <h2 class="closing__names" data-bind="derived.shortNames" data-visible="visibility.closing.names"></h2>
+        <p class="closing__meta" data-bind="derived.footerMeta" data-visible="visibility.closing.meta"></p>
       </footer>
     </main>
 
-    <div class="modal" id="rsvp-modal" aria-hidden="true">
+    <div class="modal" id="rsvp-modal" aria-hidden="true" data-visible="visibility.rsvp.modal">
       <div class="modal__backdrop" data-close-rsvp></div>
       <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="rsvp-title">
         <button class="modal__close" type="button" aria-label="Close RSVP form" data-close-rsvp>
           x
         </button>
-        <h2 class="modal__title" id="rsvp-title" data-bind="copy.rsvpModalTitle"></h2>
+        <h2
+          class="modal__title"
+          id="rsvp-title"
+          data-bind="copy.rsvpModalTitle"
+          data-visible="visibility.rsvp.modalTitle"
+        ></h2>
 
         <form class="rsvp-form" id="rsvp-form">
-          <label class="rsvp-form__field">
+          <label class="rsvp-form__field" data-visible="visibility.rsvp.nameField">
             <span data-bind="copy.rsvpNameLabel"></span>
             <input type="text" name="guestName" required />
           </label>
 
-          <fieldset class="rsvp-form__field">
+          <fieldset class="rsvp-form__field" data-visible="visibility.rsvp.attendanceField">
             <legend data-bind="copy.rsvpQuestion"></legend>
             <div class="rsvp-form__choices">
               <label class="rsvp-choice">
@@ -221,13 +365,23 @@
             </div>
           </fieldset>
 
-          <label class="rsvp-form__field">
+          <label class="rsvp-form__field" data-visible="visibility.rsvp.noteField">
             <span data-bind="copy.rsvpNoteLabel"></span>
             <textarea name="note" rows="4"></textarea>
           </label>
 
-          <button class="button button--primary button--wide" type="submit" data-bind="copy.rsvpSubmit"></button>
-          <p class="rsvp-form__status" id="rsvp-status" aria-live="polite"></p>
+          <button
+            class="button button--primary button--wide"
+            type="submit"
+            data-bind="copy.rsvpSubmit"
+            data-visible="visibility.rsvp.submitButton"
+          ></button>
+          <p
+            class="rsvp-form__status"
+            id="rsvp-status"
+            aria-live="polite"
+            data-visible="visibility.rsvp.status"
+          ></p>
         </form>
       </div>
     </div>

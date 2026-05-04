@@ -1,4 +1,4 @@
-const config = window.siteConfig;
+﻿const config = window.siteConfig;
 
 const root = document.documentElement;
 const loadingScreen = document.getElementById("loading-screen");
@@ -10,6 +10,35 @@ const audioElement = document.getElementById("message-audio");
 const audioToggle = document.getElementById("audio-toggle");
 const audioProgress = document.getElementById("audio-progress");
 const audioTime = document.getElementById("audio-time");
+
+function getPathValue(source, path) {
+  return path.split(".").reduce((value, segment) => value?.[segment], source);
+}
+
+function isVisible(path) {
+  return getPathValue(config, path) !== false;
+}
+
+function setVisibility(node, visible) {
+  if (!node) {
+    return;
+  }
+
+  node.hidden = !visible;
+  node.classList.toggle("is-hidden-by-config", !visible);
+
+  const controls = node.matches("input, textarea, select, button")
+    ? [node]
+    : Array.from(node.querySelectorAll("input, textarea, select, button"));
+
+  controls.forEach((control) => {
+    if (!control.dataset.initialDisabled) {
+      control.dataset.initialDisabled = control.disabled ? "true" : "false";
+    }
+
+    control.disabled = !visible || control.dataset.initialDisabled === "true";
+  });
+}
 
 function splitCoupleNames(coupleNames) {
   const cleaned = coupleNames.replace(/\s+(and|&)\s+/i, " & ");
@@ -78,7 +107,7 @@ function getBoundValue(path, derivedValues) {
     derived: derivedValues
   };
 
-  return path.split(".").reduce((value, segment) => value?.[segment], source) ?? "";
+  return getPathValue(source, path) ?? "";
 }
 
 function bindText(derivedValues) {
@@ -97,12 +126,23 @@ function applyMedia() {
   const galleryGrid = document.getElementById("gallery-grid");
   galleryGrid.innerHTML = "";
 
-  config.media.memoryGallery.forEach((item) => {
+  config.media.memoryGallery.forEach((item, index) => {
     const card = document.createElement("article");
     card.className = "gallery-card";
+    card.setAttribute("data-visible", `media.memoryGallery.${index}.visible`);
+    card.setAttribute("data-auto-hide-empty", "");
     card.innerHTML = `
-      <img class="gallery-card__image" src="${item.src}" alt="${item.alt}" />
-      <p class="gallery-card__caption">${item.caption}</p>
+      <img
+        class="gallery-card__image"
+        src="${item.src}"
+        alt="${item.alt}"
+        data-visible="media.memoryGallery.${index}.image"
+      />
+      <p
+        class="gallery-card__caption"
+        data-visible="media.memoryGallery.${index}.caption"
+        data-hide-if-empty
+      >${item.captionText || ""}</p>
     `;
     galleryGrid.appendChild(card);
   });
@@ -112,21 +152,17 @@ function renderCalendar(dateInfo) {
   const container = document.getElementById("calendar-strip");
   container.innerHTML = "";
 
-  // Create base date from your ISO string
   const baseDate = dateInfo.fullDate;
-
-  // Start 2 days before
   const startDate = new Date(baseDate);
   startDate.setDate(baseDate.getDate() - 2);
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 5; i += 1) {
     const currentDate = new Date(startDate);
     currentDate.setDate(startDate.getDate() + i);
 
     const day = document.createElement("div");
     day.className = "calendar-strip__day";
 
-    // Highlight the exact event day
     if (
       currentDate.getDate() === baseDate.getDate() &&
       currentDate.getMonth() === baseDate.getMonth()
@@ -154,30 +190,87 @@ function iconMarkup(icon) {
   return icons[icon] || icons.camera;
 }
 
-// function renderProgram() {
-//   const container = document.getElementById("program-list");
-//   container.innerHTML = "";
+function renderProgram() {
+  const container = document.getElementById("program-list");
 
-//   config.schedule.forEach((item) => {
-//     const card = document.createElement("article");
-//     card.className = "program-card";
-//     card.innerHTML = `
-//       <div class="program-card__icon">${iconMarkup(item.icon)}</div>
-//       <div>
-//         <p class="program-card__time">${item.time}</p>
-//         <h3 class="program-card__title">${item.title}</h3>
-//         <p class="program-card__description">${item.description}</p>
-//       </div>
-//     `;
-//     container.appendChild(card);
-//   });
-// }
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML = "";
+
+  config.schedule.forEach((item, index) => {
+    const card = document.createElement("article");
+    card.className = "program-card";
+    card.setAttribute("data-visible", `schedule.${index}.visible`);
+    card.setAttribute("data-auto-hide-empty", "");
+    card.innerHTML = `
+      <div class="program-card__icon" data-visible="schedule.${index}.iconVisible">${iconMarkup(item.icon)}</div>
+      <div>
+        <p class="program-card__time" data-visible="schedule.${index}.timeVisible">${item.time}</p>
+        <h3 class="program-card__title" data-visible="schedule.${index}.titleVisible">${item.title}</h3>
+        <p class="program-card__description" data-visible="schedule.${index}.descriptionVisible" data-hide-if-empty>${item.description}</p>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function applyVisibilityRules() {
+  document.querySelectorAll("[data-visible]").forEach((node) => {
+    setVisibility(node, isVisible(node.dataset.visible));
+  });
+
+  document.querySelectorAll("[data-hide-if-empty]").forEach((node) => {
+    if (!node.hidden && !node.textContent.trim()) {
+      setVisibility(node, false);
+    }
+  });
+
+  document.querySelectorAll("[data-auto-hide-empty]").forEach((node) => {
+    if (node.hidden) {
+      return;
+    }
+
+    const hasVisibleChildren = Array.from(node.children).some((child) => !child.hidden);
+
+    if (!hasVisibleChildren) {
+      setVisibility(node, false);
+    }
+  });
+
+  syncCollectionLayout("portrait-grid", "portrait-card", "portrait-grid--single");
+  syncCollectionLayout("gallery-grid", "gallery-card", "gallery-grid--single");
+  syncCollectionLayout("program-list", "program-card", "program-list--single");
+}
+
+function syncCollectionLayout(containerId, itemClass, singleClass) {
+  const container = document.getElementById(containerId);
+
+  if (!container || container.hidden) {
+    return;
+  }
+
+  const visibleItems = Array.from(container.children).filter(
+    (child) => child.classList.contains(itemClass) && !child.hidden
+  );
+
+  container.classList.toggle(singleClass, visibleItems.length === 1);
+
+  if (visibleItems.length === 0) {
+    setVisibility(container, false);
+  }
+}
 
 function setupModal() {
   const openButtons = document.querySelectorAll("[data-open-rsvp]");
   const closeButtons = document.querySelectorAll("[data-close-rsvp]");
 
   const openModal = () => {
+    if (modal.hidden) {
+      return;
+    }
+
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
     document.body.classList.add("modal-open");
@@ -203,31 +296,47 @@ async function handleRsvpSubmit(event) {
   event.preventDefault();
 
   const formData = new FormData(rsvpForm);
-
-  // 🔑 REQUIRED for Web3Forms
-  formData.append("access_key", "128956ca-abec-4be2-9bcd-eb1a295253e0");
-
-  // Optional (very useful)
-  formData.append("subject", "New RSVP Submission");
-  formData.append("from_name", "Wedding Invitation");
+  const endpoint = config.rsvp.endpoint?.trim();
 
   rsvpStatus.textContent = "Sending...";
 
   try {
-    const response = await fetch("https://api.web3forms.com/submit", {
+    if (!endpoint) {
+      localStorage.setItem(
+        "memories-rsvp-preview",
+        JSON.stringify(Object.fromEntries(formData.entries()))
+      );
+      rsvpStatus.textContent = config.rsvp.successMessage;
+      rsvpForm.reset();
+      return;
+    }
+
+    if (config.rsvp.accessKey) {
+      formData.append("access_key", config.rsvp.accessKey);
+    }
+
+    if (config.rsvp.subject) {
+      formData.append("subject", config.rsvp.subject);
+    }
+
+    if (config.rsvp.fromName) {
+      formData.append("from_name", config.rsvp.fromName);
+    }
+
+    const response = await fetch(endpoint, {
       method: "POST",
       body: formData
     });
 
-    const result = await response.json();
+    const contentType = response.headers.get("content-type") || "";
+    const result = contentType.includes("application/json") ? await response.json() : null;
 
-    if (result.success) {
-      rsvpStatus.textContent = "Thank you!";
-      rsvpForm.reset();
-    } else {
+    if (!response.ok || (result && result.success === false)) {
       throw new Error("Submission failed");
     }
 
+    rsvpStatus.textContent = config.rsvp.successMessage;
+    rsvpForm.reset();
   } catch (error) {
     rsvpStatus.textContent = "Something went wrong. Try again.";
   }
@@ -275,8 +384,14 @@ function formatSeconds(seconds) {
 }
 
 function revealSite() {
+  siteShell.classList.remove("is-hidden");
+
+  if (!loadingScreen || loadingScreen.hidden) {
+    loadingScreen?.remove();
+    return;
+  }
+
   window.setTimeout(() => {
-    siteShell.classList.remove("is-hidden");
     loadingScreen.classList.add("is-fading");
     window.setTimeout(() => {
       loadingScreen.remove();
@@ -297,15 +412,16 @@ function init() {
       .getDate()
       .toString()
       .padStart(2, "0")} / ${(dateInfo.fullDate.getMonth() + 1)
-        .toString()
-        .padStart(2, "0")} / ${dateInfo.fullDate.getFullYear()} - ${config.event.footerLocation}`
+      .toString()
+      .padStart(2, "0")} / ${dateInfo.fullDate.getFullYear()} - ${config.event.footerLocation}`
   };
 
   applyTheme(config.theme);
   bindText(derivedValues);
   applyMedia();
   renderCalendar(dateInfo);
-  // renderProgram();
+  renderProgram();
+  applyVisibilityRules();
   setupModal();
   setupAudio();
   rsvpForm.addEventListener("submit", handleRsvpSubmit);
@@ -313,3 +429,4 @@ function init() {
 }
 
 init();
+
