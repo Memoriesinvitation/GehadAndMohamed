@@ -80,7 +80,7 @@ window.siteConfig = {
   media: {
     partnerOnePhoto: "assets/images/portrait-one.svg",
     partnerTwoPhoto: "assets/images/portrait-two.svg",
-    venuePhoto: "assets/images/venue-placeholder.svg",
+    venuePhoto: "assets/images/Venue.jpg",
     memoryGallery: [
       {
         src: "assets/images/memory-one.svg",
@@ -129,7 +129,7 @@ window.siteConfig = {
   ],
 
   rsvp: {
-    deadline: "2026-06-25",
+    deadline: "2026-05-23",
     successMessage: "Thank you.",
     endpoint: "https://api.web3forms.com/submit"
   }
