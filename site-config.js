@@ -1,18 +1,23 @@
 window.siteConfig = {
   theme: {
     colors: {
-      background: "#fbf2e8",
-      backgroundAlt: "#f5e3dc",
-      surface: "#fffaf4",
-      surfaceStrong: "#fff4ea",
-      ink: "#5f3d35",
-      inkSoft: "#8a675c",
-      accent: "#9d573f",
-      accentDeep: "#7b3d2b",
-      accentSoft: "#efc2c0",
-      line: "#e5c7b6",
-      shadow: "rgba(107, 67, 52, 0.16)"
+      background: "#F1F2EE",
+      backgroundAlt: "#F1F1EC",
+
+      surface: "#FFFFFF",
+      surfaceStrong: "#F5F1E6",
+
+      ink: "#3A3A36",
+      inkSoft: "#6F6F68",
+
+      accent: "#8C7B6B",
+      accentDeep: "#6F5F50",
+      accentSoft: "#E6E4DC",
+
+      line: "#DCDAD2",
+      shadow: "rgba(0, 0, 0, 0.08)"
     },
+
     fonts: {
       heading: "'Fraunces', serif",
       body: "'Cormorant Garamond', serif",
@@ -21,17 +26,17 @@ window.siteConfig = {
   },
 
   event: {
-    invitationLabel: "Wedding Invitation",
-    heroTitle: "Let's Get Married",
+    invitationLabel: "Engagement Invitation",
+    heroTitle: "Let's Get Engaged",
     heroTagline:
       "A soft little corner of the internet made for the people we love most.",
     coupleNames: "Gehad & Mohamed",
-    dateTime: "2026-07-10T17:00:00+02:00",
-    venueName: "White Garden",
-    venueAddress: "El Sheikh Zayed, Cairo, Egypt",
+    dateTime: "2026-05-30T19:00:00+02:00",
+    venueName: "Panorama 6 October",
+    venueAddress: "Al Estad, Qesm Than Madinet Nasr, Cairo Governorate",
     venueDescription:
       "An open-air celebration tucked among olive trees, warm candlelight, and a long table waiting for every smile.",
-    mapsUrl: "https://maps.google.com/?q=White+Garden+El+Sheikh+Zayed+Cairo+Egypt",
+    mapsUrl: "https://maps.app.goo.gl/dRmg2ooruYANjSwr5",
     footerLocation: "Cairo, Egypt"
   },
 
@@ -68,7 +73,7 @@ window.siteConfig = {
     messageTitle: "A Message From Us",
     messageQuote: "We can't wait to celebrate this special day with you.",
     messageCaption:
-      "Add your chosen song or voice note in the audio file path when you're ready.",
+      "",
     closingLead: "With love,"
   },
 
@@ -93,7 +98,7 @@ window.siteConfig = {
         caption: "A little glimpse of joy"
       }
     ],
-    audioSrc: ""
+    audioSrc: "assets/audio/alexzavesa-calm-elegant-logo-519008.mp3"
   },
 
   schedule: [
