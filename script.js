@@ -187,31 +187,35 @@ function setupModal() {
 
 async function handleRsvpSubmit(event) {
   event.preventDefault();
+
   const formData = new FormData(rsvpForm);
-  const payload = Object.fromEntries(formData.entries());
+
+  // 🔑 REQUIRED for Web3Forms
+  formData.append("access_key", "128956ca-abec-4be2-9bcd-eb1a295253e0");
+
+  // Optional (very useful)
+  formData.append("subject", "New RSVP Submission");
+  formData.append("from_name", "Wedding Invitation");
 
   rsvpStatus.textContent = "Sending...";
 
   try {
-    if (config.rsvp.endpoint) {
-      const response = await fetch(config.rsvp.endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData
+    });
 
-      if (!response.ok) {
-        throw new Error("RSVP endpoint failed.");
-      }
+    const result = await response.json();
+
+    if (result.success) {
+      rsvpStatus.textContent = "Thank you!";
+      rsvpForm.reset();
     } else {
-      localStorage.setItem("memories-rsvp-preview", JSON.stringify(payload));
+      throw new Error("Submission failed");
     }
 
-    rsvpStatus.textContent = config.rsvp.successMessage;
-    rsvpForm.reset();
   } catch (error) {
-    rsvpStatus.textContent =
-      "The form could not be sent right now. Add an RSVP endpoint in site-config.js to connect a real service.";
+    rsvpStatus.textContent = "Something went wrong. Try again.";
   }
 }
 

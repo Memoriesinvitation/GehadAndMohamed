@@ -131,6 +131,6 @@ window.siteConfig = {
   rsvp: {
     deadline: "2026-06-25",
     successMessage: "Thank you.",
-    endpoint: "https://formspree.io/f/mkoyjgpp"
+    endpoint: "https://api.web3forms.com/submit"
   }
 };
